@@ -1113,6 +1113,65 @@
     .visible .section-title.underline-draw::after,
     .section-title.underline-draw.draw { width: 100%; }
 
+    /* ─── CONSENT CHECKBOX ─────────────────────────────── */
+    .form-consent {
+      display: flex; align-items: flex-start; gap: 10px;
+      margin-bottom: 18px; cursor: pointer;
+    }
+    .form-consent input[type="checkbox"] {
+      width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px;
+      accent-color: var(--accent); cursor: pointer;
+    }
+    .form-consent-text {
+      font-size: 13px; color: var(--text-muted); line-height: 1.55;
+    }
+    .form-consent-text a {
+      color: var(--accent-light); border-bottom: 1px dashed var(--border-accent);
+      transition: color var(--transition);
+    }
+    .form-consent-text a:hover { color: var(--text-primary); }
+    .form-consent-error { color: #f87171; font-size: 12px; margin-top: -12px; margin-bottom: 12px; display: none; }
+
+    /* ─── PRIVACY MODAL ─────────────────────────────────── */
+    #privacy-modal {
+      position: fixed; inset: 0; z-index: 10000;
+      background: rgba(0,0,0,0.75); backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px; opacity: 0; visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    #privacy-modal.open { opacity: 1; visibility: visible; }
+    .privacy-box {
+      background: var(--bg-card); border: 1px solid var(--border-accent);
+      border-radius: var(--radius-xl); padding: 40px 36px;
+      max-width: 640px; width: 100%; max-height: 80vh;
+      overflow-y: auto; position: relative;
+    }
+    .privacy-box h2 {
+      font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700;
+      margin-bottom: 20px; color: var(--text-primary);
+    }
+    .privacy-box h3 {
+      font-size: 15px; font-weight: 600; margin: 20px 0 8px;
+      color: var(--text-primary);
+    }
+    .privacy-box p, .privacy-box li {
+      font-size: 14px; color: var(--text-secondary); line-height: 1.7;
+    }
+    .privacy-box ul { padding-left: 18px; list-style: disc; margin-bottom: 8px; }
+    .privacy-close {
+      position: absolute; top: 16px; right: 16px;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--bg-hover); border: 1px solid var(--border);
+      color: var(--text-secondary); font-size: 18px; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: var(--transition);
+    }
+    .privacy-close:hover { background: var(--accent-glow); color: var(--text-primary); }
+    @media (max-width: 600px) {
+      .privacy-box { padding: 28px 20px; }
+    }
+
     /* ─── PREFERS REDUCED MOTION ────────────────────────── */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -1623,7 +1682,7 @@
         </div>
         <div class="pricing-price">
           <span class="pricing-from">от</span>
-          <span class="pricing-amount">80 000 ₽</span>
+          <span class="pricing-amount">53 000 ₽</span>
         </div>
         <div class="pricing-divider"></div>
         <div class="pricing-features">
@@ -1644,7 +1703,7 @@
         </div>
         <div class="pricing-price">
           <span class="pricing-from">от</span>
-          <span class="pricing-amount">250 000 ₽</span>
+          <span class="pricing-amount">165 000 ₽</span>
         </div>
         <div class="pricing-divider"></div>
         <div class="pricing-features">
@@ -1665,7 +1724,7 @@
         </div>
         <div class="pricing-price">
           <span class="pricing-from">от</span>
-          <span class="pricing-amount">600 000 ₽</span>
+          <span class="pricing-amount">400 000 ₽</span>
         </div>
         <div class="pricing-divider"></div>
         <div class="pricing-features">
@@ -1813,6 +1872,11 @@
               <label class="form-label" for="message">Коротко о задаче</label>
               <textarea class="form-textarea" id="message" name="message" placeholder="Например: нужен чатбот для обработки входящих заявок..."></textarea>
             </div>
+            <label class="form-consent">
+              <input type="checkbox" id="consent" name="consent" required />
+              <span class="form-consent-text">Я согласен(а) на обработку персональных данных в соответствии с <a href="#" id="open-privacy">Политикой конфиденциальности</a></span>
+            </label>
+            <div class="form-consent-error" id="consentError">Пожалуйста, подтвердите согласие</div>
             <button type="submit" class="btn btn-primary form-submit">
               <span class="submit-text">Отправить заявку →</span>
               <span class="submit-loading" style="display:none;">Отправляю…</span>
@@ -1843,7 +1907,10 @@
         <li><a href="#contact">Контакт</a></li>
       </ul>
       <div class="footer-copy">© 2026 Цифровой Мастер. Все права защищены.</div>
-      <div class="footer-made">Сделано с ♥ и AI</div>
+      <div class="footer-made">
+        <a href="#" id="footer-privacy" style="color:inherit;border-bottom:1px dashed rgba(255,255,255,0.2);">Политика конфиденциальности</a>
+        &nbsp;·&nbsp; Сделано с ♥ и AI
+      </div>
     </div>
   </div>
 </footer>
@@ -1853,6 +1920,42 @@
   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.94z"/></svg>
   <span class="float-label">Написать в Telegram</span>
 </a>
+
+<!-- ════════════════════════════════════════════════════
+     PRIVACY POLICY MODAL
+════════════════════════════════════════════════════ -->
+<div id="privacy-modal" role="dialog" aria-modal="true" aria-label="Политика конфиденциальности">
+  <div class="privacy-box">
+    <button class="privacy-close" id="privacy-close" aria-label="Закрыть">×</button>
+    <h2>Политика конфиденциальности</h2>
+    <p>Настоящая Политика определяет порядок обработки персональных данных, передаваемых пользователями сайта <strong>Цифровой Мастер</strong> (далее — Оператор).</p>
+
+    <h3>1. Какие данные собираются</h3>
+    <p>При заполнении формы обратной связи Оператор собирает:</p>
+    <ul>
+      <li>Имя пользователя</li>
+      <li>Контактные данные: email-адрес или Telegram-ник</li>
+      <li>Описание проекта (по желанию пользователя)</li>
+    </ul>
+
+    <h3>2. Цель обработки</h3>
+    <p>Данные используются исключительно для связи с пользователем по вопросу его обращения. Данные не передаются третьим лицам, не используются в рекламных целях и не продаются.</p>
+
+    <h3>3. Правовое основание</h3>
+    <p>Обработка персональных данных осуществляется на основании согласия субъекта персональных данных в соответствии с Федеральным законом № 152-ФЗ «О персональных данных».</p>
+
+    <h3>4. Хранение данных</h3>
+    <p>Данные хранятся только в течение срока, необходимого для ответа на обращение. По запросу пользователя данные удаляются незамедлительно.</p>
+
+    <h3>5. Права пользователя</h3>
+    <p>Пользователь вправе в любой момент отозвать согласие на обработку данных, направив запрос в Telegram: <strong>@ElenaSmirnovaL</strong>.</p>
+
+    <h3>6. Контакт</h3>
+    <p>По вопросам обработки персональных данных обращайтесь: <strong>@ElenaSmirnovaL</strong></p>
+
+    <p style="margin-top:24px;font-size:12px;color:var(--text-muted);">Последнее обновление: апрель 2026</p>
+  </div>
+</div>
 
 <!-- ════════════════════════════════════════════════════
      JAVASCRIPT
@@ -2324,6 +2427,42 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
   document.querySelectorAll('.btn').forEach(btn => {
     btn.innerHTML = btn.innerHTML.replace(/([→↓←↑►])/g, '<span class="btn-arrow">$1</span>');
   });
+})();
+
+// ── PRIVACY MODAL ────────────────────────────────────────
+(function() {
+  const modal   = document.getElementById('privacy-modal');
+  const closeBtn = document.getElementById('privacy-close');
+  const openers = ['open-privacy', 'footer-privacy'];
+
+  function openModal(e) { e.preventDefault(); modal.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeModal()  { modal.classList.remove('open'); document.body.style.overflow = ''; }
+
+  openers.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('click', openModal);
+  });
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+})();
+
+// ── CONSENT VALIDATION ───────────────────────────────────
+(function() {
+  const form = document.getElementById('contactForm');
+  if (!form) return;
+  const origSubmit = form.onsubmit;
+  form.addEventListener('submit', function(e) {
+    const checkbox = form.querySelector('#consent');
+    const errEl   = document.getElementById('consentError');
+    if (checkbox && !checkbox.checked) {
+      e.stopImmediatePropagation();
+      e.preventDefault();
+      errEl.style.display = 'block';
+      checkbox.closest('.form-consent').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      setTimeout(() => { errEl.style.display = 'none'; }, 3000);
+    }
+  }, true);
 })();
 </script>
 
