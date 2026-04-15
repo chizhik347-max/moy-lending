@@ -582,22 +582,15 @@
     }
     .about-photo-wrap { position: relative; }
     .about-photo {
-      width: 100%; aspect-ratio: 3/4; border-radius: var(--radius-xl);
+      width: 100%; border-radius: var(--radius-xl);
       border: 1px solid var(--border-accent);
-      position: relative; overflow: hidden;
+      overflow: hidden;
       box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(99,102,241,0.12);
     }
     .about-photo img {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center top;
+      width: 100%; height: auto;
       display: block;
-    }
-    .about-photo::after {
-      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-      height: 25%;
-      background: linear-gradient(to bottom, transparent, rgba(10,10,10,0.55));
-      pointer-events: none;
+      object-fit: cover; object-position: center top;
     }
     .about-photo-label {
       font-family: 'JetBrains Mono', monospace; font-size: 12px;
@@ -866,7 +859,9 @@
     ══════════════════════════════════════════════════ ─── */
     @media (max-width: 1024px) {
       .hero-grid { grid-template-columns: 1fr; }
-      .hero-visual { display: none; }
+      .hero-visual { display: flex; justify-content: center; margin-top: 40px; }
+      .hero-photo-frame { width: 220px; height: 265px; }
+      .hero-float-card { display: none; }
       .hero-stats { grid-template-columns: repeat(2, 1fr); }
       .services-grid { grid-template-columns: repeat(2, 1fr); }
       .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
