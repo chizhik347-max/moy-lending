@@ -282,19 +282,23 @@
       position: relative; display: flex; justify-content: center;
     }
     .hero-photo-frame {
-      width: 320px; height: 380px; border-radius: var(--radius-xl);
-      background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
-      border: 1px solid var(--border);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 12px; color: var(--text-muted); font-size: 13px;
+      width: 320px; height: 420px; border-radius: var(--radius-xl);
+      border: 1px solid var(--border-accent);
       position: relative; overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(99,102,241,0.15);
     }
-    .hero-photo-frame::before {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(99,102,241,0.06) 0%, transparent 60%);
+    .hero-photo-frame img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+      display: block;
     }
-    .hero-photo-icon { font-size: 64px; opacity: 0.4; }
-    .hero-photo-text { font-family: 'JetBrains Mono', monospace; opacity: 0.5; }
+    .hero-photo-frame::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 35%;
+      background: linear-gradient(to bottom, transparent, rgba(10,10,10,0.65));
+      pointer-events: none; z-index: 1;
+    }
 
     /* Floating cards */
     .hero-float-card {
@@ -303,7 +307,7 @@
       padding: 10px 16px; font-size: 13px; font-weight: 500;
       box-shadow: var(--shadow-accent);
       animation: float 4s ease-in-out infinite;
-      white-space: nowrap;
+      white-space: nowrap; z-index: 2;
     }
     .hero-float-1 { top: -12px; right: -16px; animation-delay: 0s; }
     .hero-float-2 { bottom: 20px; left: -24px; animation-delay: 1.5s; }
@@ -579,14 +583,21 @@
     .about-photo-wrap { position: relative; }
     .about-photo {
       width: 100%; aspect-ratio: 3/4; border-radius: var(--radius-xl);
-      background: linear-gradient(135deg, var(--bg-card) 0%, #1a1a2e 100%);
-      border: 1px solid var(--border);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 12px; font-size: 80px; position: relative; overflow: hidden;
+      border: 1px solid var(--border-accent);
+      position: relative; overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(99,102,241,0.12);
     }
-    .about-photo::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(circle at 30% 30%, rgba(99,102,241,0.1) 0%, transparent 60%);
+    .about-photo img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+      display: block;
+    }
+    .about-photo::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 25%;
+      background: linear-gradient(to bottom, transparent, rgba(10,10,10,0.55));
+      pointer-events: none;
     }
     .about-photo-label {
       font-family: 'JetBrains Mono', monospace; font-size: 12px;
@@ -884,6 +895,7 @@
       .footer-links { justify-content: center; }
       #float-tg .float-label { display: none; }
       #float-tg { padding: 14px; border-radius: 50%; }
+      .about-badge-corner { right: 8px; }
     }
 
     @media (max-width: 480px) {
@@ -1198,8 +1210,7 @@
       </div>
       <div class="hero-visual">
         <div class="hero-photo-frame">
-          <div class="hero-photo-icon">👤</div>
-          <div class="hero-photo-text">Ваше фото здесь</div>
+          <img src="photo.png" alt="Цифровой Мастер" />
           <div class="hero-float-card hero-float-1">🤖 AI-агент запущен</div>
           <div class="hero-float-card hero-float-2">✅ Проект сдан в срок</div>
         </div>
@@ -1553,8 +1564,7 @@
     <div class="about-grid">
       <div class="about-photo-wrap fade-left">
         <div class="about-photo">
-          <div style="font-size:80px;opacity:0.35;">👤</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-muted);opacity:0.5;">Ваше фото здесь</div>
+          <img src="photo.png" alt="Цифровой Мастер" />
         </div>
         <div class="about-badge-corner">
           <div class="about-badge-val">47+</div>
@@ -1564,11 +1574,11 @@
 
       <div class="fade-right delay-2">
         <div class="section-label">Обо мне</div>
-        <div class="about-name">Имя Фамилия</div>
+        <div class="about-name">Елена Смирнова</div>
         <div class="about-role">Цифровой мастер · Разработчик · AI-специалист</div>
         <div class="about-text">
           <p>Я знаю, как сложно найти разработчика, которому можно доверить важный проект. Слышал это от десятков клиентов — и именно поэтому строю работу иначе.</p>
-          <p>Меня зовут [Имя]. Я разрабатываю цифровые продукты для бизнеса — от корпоративных сайтов до AI-систем автоматизации. За 5 лет реализовал 47+ проектов в разных нишах.</p>
+          <p>Меня зовут Елена. Я разрабатываю цифровые продукты для бизнеса — от корпоративных сайтов до AI-систем автоматизации. За 5 лет реализовала 47+ проектов в разных нишах.</p>
           <p>Работаю на стыке трёх миров: веб-разработка, мобильные приложения и искусственный интеллект. Если тебе нужен партнёр, который говорит на языке бизнеса и держит сроки — давай поговорим.</p>
         </div>
         <div class="about-stats">
@@ -1592,7 +1602,7 @@
         <div class="about-links">
           <a href="#" class="about-link">💼 LinkedIn</a>
           <a href="#" class="about-link">🐙 GitHub</a>
-          <a href="#" class="about-link">✈️ Telegram</a>
+          <a href="https://t.me/ElenaSmirnovaL" class="about-link" target="_blank" rel="noopener">✈️ Telegram</a>
         </div>
       </div>
     </div>
@@ -1622,7 +1632,7 @@
         </div>
         <div class="pricing-divider"></div>
         <div class="pricing-features">
-          <div class="pricing-feat">Лендинг, чатбот, ��ростое API</div>
+          <div class="pricing-feat">Лендинг, чатбот, простое API</div>
           <div class="pricing-feat">Срок: 2–3 недели</div>
           <div class="pricing-feat">14 дней поддержки</div>
           <div class="pricing-feat">Мобильная адаптация</div>
@@ -1768,7 +1778,7 @@
           </div>
           <div class="contact-item">
             <span class="contact-item-icon">✈️</span>
-            <span>@your_telegram</span>
+            <span>@ElenaSmirnovaL</span>
           </div>
           <div class="contact-item">
             <span class="contact-item-icon">💼</span>
@@ -1844,7 +1854,7 @@
 </footer>
 
 <!-- Floating Telegram -->
-<a href="https://t.me/your_telegram" id="float-tg" target="_blank" rel="noopener">
+<a href="https://t.me/ElenaSmirnovaL" id="float-tg" target="_blank" rel="noopener">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.94z"/></svg>
   <span class="float-label">Написать в Telegram</span>
 </a>
