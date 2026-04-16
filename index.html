@@ -840,6 +840,27 @@
     .footer-copy { font-size: 13px; color: var(--text-muted); }
     .footer-made { font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
 
+    /* ─── BACK TO TOP ──────────────────────────────────── */
+    #back-to-top {
+      position: fixed; bottom: 88px; right: 28px; z-index: 800;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--bg-card); border: 1px solid var(--border-accent);
+      color: var(--accent-light); font-size: 20px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      opacity: 0; transform: translateY(16px);
+      transition: opacity 0.35s ease, transform 0.35s ease, background var(--transition), box-shadow var(--transition);
+      cursor: pointer; text-decoration: none;
+    }
+    #back-to-top.visible { opacity: 1; transform: translateY(0); }
+    #back-to-top:hover {
+      background: var(--accent); color: #fff;
+      box-shadow: 0 0 24px var(--accent-glow);
+    }
+    @media (max-width: 768px) {
+      #back-to-top { bottom: 88px; right: 16px; }
+    }
+
     /* ─── FLOATING TELEGRAM ─────────────────────────────── */
     #float-tg {
       position: fixed; bottom: 28px; right: 28px; z-index: 800;
@@ -1915,6 +1936,9 @@
   </div>
 </footer>
 
+<!-- Back to top -->
+<button id="back-to-top" aria-label="Наверх">↑</button>
+
 <!-- Floating Telegram -->
 <a href="https://t.me/ElenaSmirnovaL" id="float-tg" target="_blank" rel="noopener">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.94z"/></svg>
@@ -2426,6 +2450,17 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
 (function() {
   document.querySelectorAll('.btn').forEach(btn => {
     btn.innerHTML = btn.innerHTML.replace(/([→↓←↑►])/g, '<span class="btn-arrow">$1</span>');
+  });
+})();
+
+// ── BACK TO TOP ──────────────────────────────────────────
+(function() {
+  const btn = document.getElementById('back-to-top');
+  window.addEventListener('scroll', () => {
+    btn.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 })();
 
